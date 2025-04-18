@@ -1,0 +1,154 @@
+# corona-shapes.ttl
+# SHACL Shapes for validating "Corona" OT Performance Metrics RDF Data (Draft)
+
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix corona: <http://example.org/standards/corona/metrics#> .
+@prefix ex: <http://example.org/shapes/> . # Namespace for shapes
+
+# --- Shape for Nodes Reporting Network Interface Metrics ---
+ex:NetworkInterfaceShape
+    a sh:NodeShape ;
+    sh:targetClass corona:NetworkInterfaceMetric ; # Applies to instances explicitly typed or inferred
+    sh:message "Validation constraints for Corona Network Interface Metrics." ;
+
+    sh:property [
+        sh:path corona:bytesReceived ;
+        sh:name "bytesReceived" ;
+        sh:description "Must have exactly one value for bytes received, as an unsignedLong." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path corona:bytesSent ;
+        sh:name "bytesSent" ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path corona:packetsReceived ;
+        sh:name "packetsReceived" ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+    ] ;
+     sh:property [
+        sh:path corona:packetsSent ;
+        sh:name "packetsSent" ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path corona:broadcastPacketsReceived ;
+        sh:name "broadcastPacketsReceived" ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ; sh:maxCount 1 ; # Optional
+    ] ;
+    sh:property [
+        sh:path corona:errorPacketsReceived ;
+        sh:name "errorPacketsReceived" ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ; sh:maxCount 1 ; # Optional
+    ] ;
+    sh:property [
+        sh:path corona:packetsDroppedReceived ;
+        sh:name "packetsDroppedReceived" ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ; sh:maxCount 1 ; # Optional
+    ] ;
+    sh:property [
+        sh:path corona:networkUtilization ;
+        sh:name "networkUtilization" ;
+        sh:datatype xsd:float ;
+        sh:minCount 0 ; sh:maxCount 1 ; # Optional
+        sh:minInclusive 0.0 ; sh:maxInclusive 100.0 ;
+    ] ;
+	sh:property [
+        sh:path corona:linkSpeed ;
+        sh:name "linkSpeed" ;
+        sh:datatype xsd:unsignedInt ;
+        sh:minCount 0 ; sh:maxCount 1 ; # Optional
+        sh:minInclusive 0 ;
+    ] .
+
+# --- Shape for Nodes Reporting Application Metrics ---
+ex:ApplicationMetricShape
+    a sh:NodeShape ;
+    sh:targetClass corona:ApplicationMetric ;
+    sh:message "Validation constraints for Corona Application Metrics." ;
+
+    sh:property [
+        sh:path corona:readCommandLatency ;
+        sh:name "readCommandLatency" ;
+        sh:datatype xsd:float ;
+        sh:minCount 0 ; sh:maxCount 1 ; # Optional
+        sh:minInclusive 0.0 ;
+    ] ;
+    sh:property [
+        sh:path corona:writeCommandLatency ;
+        sh:name "writeCommandLatency" ;
+        sh:datatype xsd:float ;
+        sh:minCount 0 ; sh:maxCount 1 ; # Optional
+        sh:minInclusive 0.0 ;
+    ] ;
+    sh:property [
+        sh:path corona:requestSuccessPercentage ;
+        sh:name "requestSuccessPercentage" ;
+        sh:datatype xsd:float ;
+        sh:minCount 0 ; sh:maxCount 1 ; # Optional
+        sh:minInclusive 0.0 ; sh:maxInclusive 100.0 ;
+    ] ;
+    sh:property [
+        sh:path corona:totalRequests ;
+        sh:name "totalRequests" ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ; sh:maxCount 1 ; # Optional, but needed if percentage is calculated
+    ] ;
+    sh:property [
+        sh:path corona:successfulResponses ;
+        sh:name "successfulResponses" ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ; sh:maxCount 1 ; # Optional, but needed if percentage is calculated
+        # Could add a constraint: sh:lessThanOrEquals corona:totalRequests
+    ] .
+
+# Validation for BACnet-specific Application Metrics
+corona:ApplicationMetricShape
+    a sh:NodeShape ;
+    sh:targetClass corona:ApplicationMetric ;
+    sh:property [
+        sh:path corona:readPropertyRequests ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:readPropertyResponses ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:totalProperties ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:whoIsRequestsSent ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:globalWhoIsRequestsSent ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:directedWhoIsRequestsSent ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:iAmResponsesSent ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] .

@@ -1,0 +1,175 @@
+# corona-ontology.ttl
+# RDFS Definitions for the "Corona" OT Performance Metrics Standard (Draft)
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix corona: <http://example.org/standards/corona/metrics#> .
+
+# --- Base Classes ---
+
+corona:PerformanceMetric rdf:type rdfs:Class ;
+    rdfs:label "Performance Metric"@en ;
+    rdfs:comment "The abstract concept of a performance metric for Operational Technology systems."@en .
+
+corona:NetworkInterfaceMetric rdf:type rdfs:Class ;
+    rdfs:subClassOf corona:PerformanceMetric ;
+    rdfs:label "Network Interface Metric"@en ;
+    rdfs:comment "A performance metric primarily associated with a network interface's activity."@en .
+
+corona:ApplicationMetric rdf:type rdfs:Class ;
+    rdfs:subClassOf corona:PerformanceMetric ;
+    rdfs:label "Application Metric"@en ;
+    rdfs:comment "A performance metric primarily associated with application-level interactions or protocol behavior."@en .
+
+# --- Network Interface Metric Properties ---
+
+corona:bytesReceived rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:NetworkInterfaceMetric ; # Loosely indicates association
+    rdfs:label "Bytes Received"@en ;
+    rdfs:comment "Total number of octets (bytes) received on an interface since the last counter reset or initialization. Wraparound behavior is implementation-defined."@en ;
+    rdfs:range xsd:unsignedLong ; # Using unsignedLong for potentially large counters
+    rdfs:isDefinedBy corona: .
+
+corona:bytesSent rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:NetworkInterfaceMetric ;
+    rdfs:label "Bytes Sent"@en ;
+    rdfs:comment "Total number of octets (bytes) sent from an interface since the last counter reset or initialization. Wraparound behavior is implementation-defined."@en ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:packetsReceived rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:NetworkInterfaceMetric ;
+    rdfs:label "Packets Received"@en ;
+    rdfs:comment "Total number of network packets (frames) received on an interface, including errored packets."@en ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:packetsSent rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:NetworkInterfaceMetric ;
+    rdfs:label "Packets Sent"@en ;
+    rdfs:comment "Total number of network packets (frames) transmitted from an interface."@en ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:broadcastPacketsReceived rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:NetworkInterfaceMetric ;
+    rdfs:label "Broadcast Packets Received"@en ;
+    rdfs:comment "Total number of broadcast packets received on an interface."@en ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:errorPacketsReceived rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:NetworkInterfaceMetric ;
+    rdfs:label "Error Packets Received"@en ;
+    rdfs:comment "Total number of inbound packets received with errors (e.g., CRC errors, framing errors)."@en ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:packetsDroppedReceived rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:NetworkInterfaceMetric ;
+    rdfs:label "Packets Dropped Received"@en ;
+    rdfs:comment "Total number of inbound packets discarded, e.g., due to buffer overflows or lack of resources."@en ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:networkUtilization rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:NetworkInterfaceMetric ;
+    rdfs:label "Network Utilization"@en ;
+    rdfs:comment "The percentage of available bandwidth currently being used on the network interface, typically calculated over a recent interval."@en ;
+    rdfs:range xsd:float ; # Value between 0.0 and 100.0
+    rdfs:isDefinedBy corona: .
+
+corona:linkSpeed rdf:type rdf:Property ;
+	rdfs:subPropertyOf corona:NetworkInterfaceMetric ;
+	rdfs:label "Link Speed"@en ;
+	rdfs:comment "The configured or negotiated speed of the network link. Units should be specified separately (e.g., Mbps)."@en ;
+	rdfs:range xsd:unsignedInt ;
+	rdfs:isDefinedBy corona: .
+
+
+# --- Application Metric Properties ---
+
+corona:readCommandLatency rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:ApplicationMetric ;
+    rdfs:label "Read Command Latency"@en ;
+    rdfs:comment "Average time duration between sending a read request and receiving the corresponding response. Units should be specified separately, typically milliseconds."@en ;
+    rdfs:range xsd:float ;
+    rdfs:isDefinedBy corona: .
+
+corona:writeCommandLatency rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:ApplicationMetric ;
+    rdfs:label "Write Command Latency"@en ;
+    rdfs:comment "Average time duration between sending a write request and receiving the corresponding response or acknowledgment. Units should be specified separately, typically milliseconds."@en ;
+    rdfs:range xsd:float ;
+    rdfs:isDefinedBy corona: .
+
+corona:requestSuccessPercentage rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:ApplicationMetric ;
+    rdfs:label "Request Success Percentage"@en ;
+    rdfs:comment "The percentage of successful request-response transactions over a defined measurement interval. Calculation details (e.g., timeout criteria) are implementation-defined."@en ;
+    rdfs:range xsd:float ; # Value between 0.0 and 100.0
+    rdfs:isDefinedBy corona: .
+
+corona:totalRequests rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:ApplicationMetric ;
+    rdfs:label "Total Requests"@en ;
+    rdfs:comment "Total number of requests sent within the measurement interval for calculating success percentage."@en ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:successfulResponses rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:ApplicationMetric ;
+    rdfs:label "Successful Responses"@en ;
+    rdfs:comment "Total number of successful responses received within the measurement interval for calculating success percentage."@en ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+# BACnet-specific Application Metrics
+corona:readPropertyRequests a rdf:Property ;
+    rdfs:label "ReadProperty Requests" ;
+    rdfs:comment "Total number of ReadProperty requests sent." ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong .
+
+corona:readPropertyResponses a rdf:Property ;
+    rdfs:label "ReadProperty Responses" ;
+    rdfs:comment "Total number of ReadProperty responses received." ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong .
+
+corona:totalProperties a rdf:Property ;
+    rdfs:label "Total Properties" ;
+    rdfs:comment "Total number of properties available in the BACnet object." ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong .
+
+corona:whoIsRequestsSent a rdf:Property ;
+    rdfs:label "WhoIs Requests Sent" ;
+    rdfs:comment "Total number of WhoIs requests sent." ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong .
+
+corona:globalWhoIsRequestsSent a rdf:Property ;
+    rdfs:label "Global WhoIs Requests Sent" ;
+    rdfs:comment "Number of global WhoIs requests sent." ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong .
+
+corona:directedWhoIsRequestsSent a rdf:Property ;
+    rdfs:label "Directed WhoIs Requests Sent" ;
+    rdfs:comment "Number of directed WhoIs requests sent." ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong .
+
+corona:iAmResponsesSent a rdf:Property ;
+    rdfs:label "IAm Responses Sent" ;
+    rdfs:comment "Total number of IAm responses sent." ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong .
+
+corona:iAmResponsesReceived a rdf:Property;
+    rdfs:label "IAm Responses Received";
+    rdfs:comment "Total number of IAm responses received.";
+    rdfs:domain corona:ApplicationMetric;
+    rdfs:range xsd:unsignedLong .

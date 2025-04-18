@@ -1,0 +1,78 @@
+# cim-corona-alignment.ttl
+# Alignment Definitions between "Corona" OT Metrics and Common Information Model (CIM) Concepts (Draft)
+#
+# This file provides illustrative mappings using SKOS (Simple Knowledge Organization System)
+# to show potential conceptual alignment between Corona metrics and CIM concepts.
+#
+# WARNING: The CIM URIs used here (e.g., cim:ComDeviceStats.receivedBytes) are plausible examples
+# based on general CIM structure but may not represent actual, standardized CIM properties.
+# Consult official IEC TC57 CIM RDF schemas for definitive URIs.
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix corona: <http://example.org/standards/corona/metrics#> .
+
+# Official CIM namespace URI (confirm with latest IEC TC57 standards)
+# Example based on search result
+@prefix cim: <http://iec.ch/TC57/CIM100#> .
+
+# --- Mappings for Network Interface Metrics ---
+
+corona:bytesReceived
+    # Indicates a high degree of conceptual similarity
+    skos:closeMatch cim:ComDeviceStats.receivedBytes ;
+    rdfs:comment "Corona bytes received metric is conceptually similar to a potential CIM property tracking received bytes on communication device/interface statistics."@en .
+
+corona:bytesSent
+    skos:closeMatch cim:ComDeviceStats.transmittedBytes ;
+    rdfs:comment "Corona bytes sent metric is conceptually similar to a potential CIM property tracking transmitted bytes on communication device/interface statistics."@en .
+
+corona:packetsReceived
+    skos:closeMatch cim:ComDeviceStats.receivedPackets ;
+    rdfs:comment "Corona packets received metric is conceptually similar to a potential CIM property tracking received packets."@en .
+
+corona:packetsSent
+    skos:closeMatch cim:ComDeviceStats.transmittedPackets ;
+    rdfs:comment "Corona packets sent metric is conceptually similar to a potential CIM property tracking transmitted packets."@en .
+
+corona:broadcastPacketsReceived
+    # Might be less common or grouped differently in CIM
+    skos:broadMatch cim:ComPacketStats.broadcastReceivedCount ; # Example: broader match if CIM is less specific
+    rdfs:comment "Corona broadcast packets metric might align broadly with specific CIM packet counters, if available."@en .
+
+corona:errorPacketsReceived
+    skos:closeMatch cim:InterfaceStats.receiveErrorPackets ;
+    rdfs:comment "Corona error packets metric likely aligns closely with CIM properties tracking interface receive errors."@en .
+
+corona:packetsDroppedReceived
+    skos:closeMatch cim:InterfaceStats.receiveDroppedPackets ;
+    rdfs:comment "Corona dropped packets metric likely aligns closely with CIM properties tracking interface receive discards/drops."@en .
+
+corona:networkUtilization
+    # CIM might model utilization differently, perhaps via related measurements
+    skos:relatedMatch cim:CommunicationLink.utilizationMeasurement ; # Example: related match to a link measurement
+    rdfs:comment "Corona network utilization may relate to specific CIM measurements associated with communication links or interfaces, rather than a direct attribute."@en .
+
+corona:linkSpeed
+	skos:closeMatch cim:ComMedia.speed ; # CIM often models communication media properties
+	rdfs:comment "Corona link speed conceptually aligns with properties defining the speed of CIM communication media assets."@en .
+
+# --- Mappings for Application Metrics ---
+
+corona:readCommandLatency
+    # Latency might be modelled as a performance measurement in CIM rather than a direct property
+    skos:relatedMatch cim:ApplicationPerformance.averageReadLatency ;
+    rdfs:comment "Corona read latency conceptually relates to potential CIM application performance metrics, possibly linked via MeasurementValue instances."@en .
+
+corona:writeCommandLatency
+    skos:relatedMatch cim:ApplicationPerformance.averageWriteLatency ;
+    rdfs:comment "Corona write latency conceptually relates to potential CIM application performance metrics."@en .
+
+corona:requestSuccessPercentage
+    # Success rates might be derived from availability stats or specific counters in CIM
+    skos:relatedMatch cim:CommunicationLink.availability ; # Example: related to link availability concepts
+    rdfs:comment "Corona request success percentage may relate to CIM concepts of communication availability, reliability, or specific success/failure counters."@en .
+
+# --- End of Alignment Definitions ---
