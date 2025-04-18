@@ -12,6 +12,16 @@ corona:PerformanceMetric rdf:type rdfs:Class ;
     rdfs:label "Performance Metric"@en ;
     rdfs:comment "The abstract concept of a performance metric for Operational Technology systems."@en .
 
+corona:SampledMetric rdf:type rdfs:Class ;
+    rdfs:subClassOf corona:PerformanceMetric ;
+    rdfs:label "Sampled Metric"@en ;
+    rdfs:comment "A performance metric observed over a specific time interval."@en .
+
+corona:LifetimeMetric rdf:type rdfs:Class ;
+    rdfs:subClassOf corona:PerformanceMetric ;
+    rdfs:label "Lifetime Metric"@en ;
+    rdfs:comment "A performance metric that accumulates over the lifetime of the system."@en .
+
 corona:NetworkInterfaceMetric rdf:type rdfs:Class ;
     rdfs:subClassOf corona:PerformanceMetric ;
     rdfs:label "Network Interface Metric"@en ;
@@ -22,13 +32,22 @@ corona:ApplicationMetric rdf:type rdfs:Class ;
     rdfs:label "Application Metric"@en ;
     rdfs:comment "A performance metric primarily associated with application-level interactions or protocol behavior."@en .
 
+# --- Observation Node Property ---
+
+corona:observedFrom rdf:type rdf:Property ;
+    rdfs:label "Observed From"@en ;
+    rdfs:comment "Specifies the node in the network from which the metric is observed."@en ;
+    rdfs:domain corona:PerformanceMetric ;
+    rdfs:range rdfs:Resource ; # Can point to any network node or resource
+    rdfs:isDefinedBy corona: .
+
 # --- Network Interface Metric Properties ---
 
 corona:bytesReceived rdf:type rdf:Property ;
-    rdfs:subPropertyOf corona:NetworkInterfaceMetric ; # Loosely indicates association
+    rdfs:subPropertyOf corona:NetworkInterfaceMetric ;
     rdfs:label "Bytes Received"@en ;
     rdfs:comment "Total number of octets (bytes) received on an interface since the last counter reset or initialization. Wraparound behavior is implementation-defined."@en ;
-    rdfs:range xsd:unsignedLong ; # Using unsignedLong for potentially large counters
+    rdfs:range xsd:unsignedLong ;
     rdfs:isDefinedBy corona: .
 
 corona:bytesSent rdf:type rdf:Property ;
@@ -91,14 +110,14 @@ corona:linkSpeed rdf:type rdf:Property ;
 # --- Application Metric Properties ---
 
 corona:readCommandLatency rdf:type rdf:Property ;
-    rdfs:subPropertyOf corona:ApplicationMetric ;
+    rdfs:subPropertyOf corona:SampledMetric ;
     rdfs:label "Read Command Latency"@en ;
     rdfs:comment "Average time duration between sending a read request and receiving the corresponding response. Units should be specified separately, typically milliseconds."@en ;
     rdfs:range xsd:float ;
     rdfs:isDefinedBy corona: .
 
 corona:writeCommandLatency rdf:type rdf:Property ;
-    rdfs:subPropertyOf corona:ApplicationMetric ;
+    rdfs:subPropertyOf corona:SampledMetric ;
     rdfs:label "Write Command Latency"@en ;
     rdfs:comment "Average time duration between sending a write request and receiving the corresponding response or acknowledgment. Units should be specified separately, typically milliseconds."@en ;
     rdfs:range xsd:float ;
@@ -112,31 +131,36 @@ corona:requestSuccessPercentage rdf:type rdf:Property ;
     rdfs:isDefinedBy corona: .
 
 corona:totalRequests rdf:type rdf:Property ;
-    rdfs:subPropertyOf corona:ApplicationMetric ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
     rdfs:label "Total Requests"@en ;
     rdfs:comment "Total number of requests sent within the measurement interval for calculating success percentage."@en ;
     rdfs:range xsd:unsignedLong ;
     rdfs:isDefinedBy corona: .
 
 corona:successfulResponses rdf:type rdf:Property ;
-    rdfs:subPropertyOf corona:ApplicationMetric ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
     rdfs:label "Successful Responses"@en ;
     rdfs:comment "Total number of successful responses received within the measurement interval for calculating success percentage."@en ;
     rdfs:range xsd:unsignedLong ;
     rdfs:isDefinedBy corona: .
 
 # BACnet-specific Application Metrics
-corona:readPropertyRequests a rdf:Property ;
-    rdfs:label "ReadProperty Requests" ;
-    rdfs:comment "Total number of ReadProperty requests sent." ;
-    rdfs:domain corona:ApplicationMetric ;
-    rdfs:range xsd:unsignedLong .
 
-corona:readPropertyResponses a rdf:Property ;
-    rdfs:label "ReadProperty Responses" ;
-    rdfs:comment "Total number of ReadProperty responses received." ;
+corona:readPropertyRequests rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "ReadProperty Requests"@en ;
+    rdfs:comment "Total number of ReadProperty requests sent."@en ;
     rdfs:domain corona:ApplicationMetric ;
-    rdfs:range xsd:unsignedLong .
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:readPropertyResponses rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "ReadProperty Responses"@en ;
+    rdfs:comment "Total number of ReadProperty responses received."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
 
 corona:totalProperties a rdf:Property ;
     rdfs:label "Total Properties" ;
@@ -144,11 +168,13 @@ corona:totalProperties a rdf:Property ;
     rdfs:domain corona:ApplicationMetric ;
     rdfs:range xsd:unsignedLong .
 
-corona:whoIsRequestsSent a rdf:Property ;
-    rdfs:label "WhoIs Requests Sent" ;
-    rdfs:comment "Total number of WhoIs requests sent." ;
+corona:whoIsRequestsSent rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "WhoIs Requests Sent"@en ;
+    rdfs:comment "Total number of WhoIs requests sent."@en ;
     rdfs:domain corona:ApplicationMetric ;
-    rdfs:range xsd:unsignedLong .
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
 
 corona:globalWhoIsRequestsSent a rdf:Property ;
     rdfs:label "Global WhoIs Requests Sent" ;
@@ -162,11 +188,13 @@ corona:directedWhoIsRequestsSent a rdf:Property ;
     rdfs:domain corona:ApplicationMetric ;
     rdfs:range xsd:unsignedLong .
 
-corona:iAmResponsesSent a rdf:Property ;
-    rdfs:label "IAm Responses Sent" ;
-    rdfs:comment "Total number of IAm responses sent." ;
+corona:iAmResponsesSent rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "IAm Responses Sent"@en ;
+    rdfs:comment "Total number of IAm responses sent."@en ;
     rdfs:domain corona:ApplicationMetric ;
-    rdfs:range xsd:unsignedLong .
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
 
 corona:iAmResponsesReceived a rdf:Property;
     rdfs:label "IAm Responses Received";

@@ -8,147 +8,109 @@
 @prefix corona: <http://example.org/standards/corona/metrics#> .
 @prefix ex: <http://example.org/shapes/> . # Namespace for shapes
 
-# --- Shape for Nodes Reporting Network Interface Metrics ---
-ex:NetworkInterfaceShape
+# --- Base Shape for Performance Metrics ---
+corona:PerformanceMetricShape
     a sh:NodeShape ;
-    sh:targetClass corona:NetworkInterfaceMetric ; # Applies to instances explicitly typed or inferred
-    sh:message "Validation constraints for Corona Network Interface Metrics." ;
+    sh:targetClass corona:PerformanceMetric ;
+    sh:property [
+        sh:path corona:observedFrom ;
+        sh:description "Specifies the node in the network from which the metric is observed." ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+    ] .
 
+# --- Shape for Sampled Metrics ---
+corona:SampledMetricShape
+    a sh:NodeShape ;
+    sh:targetClass corona:SampledMetric ;
+    sh:property [
+        sh:path corona:observedFrom ;
+        sh:description "Specifies the node in the network from which the sampled metric is observed." ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path sh:datatype ;
+        sh:description "Sampled metrics must have a numeric value." ;
+        sh:datatype xsd:float ;
+    ] .
+
+# --- Shape for Lifetime Metrics ---
+corona:LifetimeMetricShape
+    a sh:NodeShape ;
+    sh:targetClass corona:LifetimeMetric ;
+    sh:property [
+        sh:path corona:observedFrom ;
+        sh:description "Specifies the node in the network from which the lifetime metric is observed." ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path sh:datatype ;
+        sh:description "Lifetime metrics must have an unsigned long value." ;
+        sh:datatype xsd:unsignedLong ;
+    ] .
+
+# --- Shape for Network Interface Metrics ---
+corona:NetworkInterfaceMetricShape
+    a sh:NodeShape ;
+    sh:targetClass corona:NetworkInterfaceMetric ;
     sh:property [
         sh:path corona:bytesReceived ;
-        sh:name "bytesReceived" ;
-        sh:description "Must have exactly one value for bytes received, as an unsignedLong." ;
+        sh:description "Total number of bytes received on the network interface." ;
         sh:datatype xsd:unsignedLong ;
-        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:minCount 0 ;
     ] ;
     sh:property [
         sh:path corona:bytesSent ;
-        sh:name "bytesSent" ;
+        sh:description "Total number of bytes sent from the network interface." ;
         sh:datatype xsd:unsignedLong ;
-        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:minCount 0 ;
     ] ;
     sh:property [
         sh:path corona:packetsReceived ;
-        sh:name "packetsReceived" ;
+        sh:description "Total number of packets received on the network interface." ;
         sh:datatype xsd:unsignedLong ;
-        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:minCount 0 ;
     ] ;
-     sh:property [
+    sh:property [
         sh:path corona:packetsSent ;
-        sh:name "packetsSent" ;
+        sh:description "Total number of packets sent from the network interface." ;
         sh:datatype xsd:unsignedLong ;
-        sh:minCount 1 ; sh:maxCount 1 ;
-    ] ;
-    sh:property [
-        sh:path corona:broadcastPacketsReceived ;
-        sh:name "broadcastPacketsReceived" ;
-        sh:datatype xsd:unsignedLong ;
-        sh:minCount 0 ; sh:maxCount 1 ; # Optional
-    ] ;
-    sh:property [
-        sh:path corona:errorPacketsReceived ;
-        sh:name "errorPacketsReceived" ;
-        sh:datatype xsd:unsignedLong ;
-        sh:minCount 0 ; sh:maxCount 1 ; # Optional
-    ] ;
-    sh:property [
-        sh:path corona:packetsDroppedReceived ;
-        sh:name "packetsDroppedReceived" ;
-        sh:datatype xsd:unsignedLong ;
-        sh:minCount 0 ; sh:maxCount 1 ; # Optional
-    ] ;
-    sh:property [
-        sh:path corona:networkUtilization ;
-        sh:name "networkUtilization" ;
-        sh:datatype xsd:float ;
-        sh:minCount 0 ; sh:maxCount 1 ; # Optional
-        sh:minInclusive 0.0 ; sh:maxInclusive 100.0 ;
-    ] ;
-	sh:property [
-        sh:path corona:linkSpeed ;
-        sh:name "linkSpeed" ;
-        sh:datatype xsd:unsignedInt ;
-        sh:minCount 0 ; sh:maxCount 1 ; # Optional
-        sh:minInclusive 0 ;
+        sh:minCount 0 ;
     ] .
 
-# --- Shape for Nodes Reporting Application Metrics ---
-ex:ApplicationMetricShape
-    a sh:NodeShape ;
-    sh:targetClass corona:ApplicationMetric ;
-    sh:message "Validation constraints for Corona Application Metrics." ;
-
-    sh:property [
-        sh:path corona:readCommandLatency ;
-        sh:name "readCommandLatency" ;
-        sh:datatype xsd:float ;
-        sh:minCount 0 ; sh:maxCount 1 ; # Optional
-        sh:minInclusive 0.0 ;
-    ] ;
-    sh:property [
-        sh:path corona:writeCommandLatency ;
-        sh:name "writeCommandLatency" ;
-        sh:datatype xsd:float ;
-        sh:minCount 0 ; sh:maxCount 1 ; # Optional
-        sh:minInclusive 0.0 ;
-    ] ;
-    sh:property [
-        sh:path corona:requestSuccessPercentage ;
-        sh:name "requestSuccessPercentage" ;
-        sh:datatype xsd:float ;
-        sh:minCount 0 ; sh:maxCount 1 ; # Optional
-        sh:minInclusive 0.0 ; sh:maxInclusive 100.0 ;
-    ] ;
-    sh:property [
-        sh:path corona:totalRequests ;
-        sh:name "totalRequests" ;
-        sh:datatype xsd:unsignedLong ;
-        sh:minCount 0 ; sh:maxCount 1 ; # Optional, but needed if percentage is calculated
-    ] ;
-    sh:property [
-        sh:path corona:successfulResponses ;
-        sh:name "successfulResponses" ;
-        sh:datatype xsd:unsignedLong ;
-        sh:minCount 0 ; sh:maxCount 1 ; # Optional, but needed if percentage is calculated
-        # Could add a constraint: sh:lessThanOrEquals corona:totalRequests
-    ] .
-
-# Validation for BACnet-specific Application Metrics
+# --- Shape for Application Metrics ---
 corona:ApplicationMetricShape
     a sh:NodeShape ;
     sh:targetClass corona:ApplicationMetric ;
     sh:property [
         sh:path corona:readPropertyRequests ;
+        sh:description "Total number of ReadProperty requests sent." ;
         sh:datatype xsd:unsignedLong ;
         sh:minCount 0 ;
     ] ;
     sh:property [
         sh:path corona:readPropertyResponses ;
-        sh:datatype xsd:unsignedLong ;
-        sh:minCount 0 ;
-    ] ;
-    sh:property [
-        sh:path corona:totalProperties ;
+        sh:description "Total number of ReadProperty responses received." ;
         sh:datatype xsd:unsignedLong ;
         sh:minCount 0 ;
     ] ;
     sh:property [
         sh:path corona:whoIsRequestsSent ;
-        sh:datatype xsd:unsignedLong ;
-        sh:minCount 0 ;
-    ] ;
-    sh:property [
-        sh:path corona:globalWhoIsRequestsSent ;
-        sh:datatype xsd:unsignedLong ;
-        sh:minCount 0 ;
-    ] ;
-    sh:property [
-        sh:path corona:directedWhoIsRequestsSent ;
+        sh:description "Total number of WhoIs requests sent." ;
         sh:datatype xsd:unsignedLong ;
         sh:minCount 0 ;
     ] ;
     sh:property [
         sh:path corona:iAmResponsesSent ;
+        sh:description "Total number of IAm responses sent." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:totalProperties ;
+        sh:description "Total number of properties available in the BACnet object." ;
         sh:datatype xsd:unsignedLong ;
         sh:minCount 0 ;
     ] .

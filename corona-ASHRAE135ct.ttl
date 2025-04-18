@@ -10,32 +10,32 @@
 
 # --- Hypothetical BACnet Device Instance ---
 ex:dev-15-chattanooga
-    rdf:type bacnet:Device ; # Using BACnet RDF class [cite: 87]
-    bacnet:object-identifier "device,15" ; # BACnet object identifier encoding [cite: 52]
-    bacnet:object-name "BuildingController-Chattanooga" ; # Standard BACnet property
+    rdf:type bacnet:Device ; # Using BACnet RDF class
+    bacnet:object-identifier "device,15" ;
+    bacnet:object-name "BuildingController-Chattanooga" ;
     bacnet:vendor-identifier 999 ;
     bacnet:model-name "BCX-PerfMon-v2" ;
-    # Linking the monitor object to the device using bacnet:contains
     bacnet:contains ex:npm-1-eth0 .
 
 # --- Hypothetical NetworkPerformanceMonitor BACnet Object Instance ---
 ex:npm-1-eth0
-    # BACnet Typing (Could be a standard or vendor-specific object type)
     rdf:type bacnet:Object, ex:NetworkPerformanceMonitorObject ;
-    # Corona Typing (To enable SHACL validation via targetClass)
     rdf:type corona:NetworkInterfaceMetric, corona:ApplicationMetric ;
 
-    # Standard BACnet Properties [cite: 71]
+    # Standard BACnet Properties
     bacnet:object-identifier "network-performance-monitor,1" ;
     bacnet:object-name "Eth0 Performance" ;
     bacnet:description "Performance metrics for primary Ethernet interface on dev-15-chattanooga. Reporting via Corona standard." ;
-    bacnet:present-value ex:Operational ; # Hypothetical enumerated value
-    bacnet:status-flags "false"^^xsd:boolean ; # Simplified example, real would be BitString
-    bacnet:event-state bacnet:EventState.normal ; # BACnet enumeration encoding
-    bacnet:out-of-service "false"^^xsd:boolean ; # Boolean encoding [cite: 32]
-    bacnet:units bacnet:EngineeringUnits.no-units ; # Default units
+    bacnet:present-value ex:Operational ;
+    bacnet:status-flags "false"^^xsd:boolean ;
+    bacnet:event-state bacnet:EventState.normal ;
+    bacnet:out-of-service "false"^^xsd:boolean ;
+    bacnet:units bacnet:EngineeringUnits.no-units ;
 
     # --- Metrics reported using Corona properties ---
+    corona:observedFrom ex:dev-15-chattanooga ; # Observation node
+
+    # Lifetime Metrics
     corona:bytesReceived "104857600"^^xsd:unsignedLong ;
     corona:bytesSent "52428800"^^xsd:unsignedLong ;
     corona:packetsReceived "200000"^^xsd:unsignedLong ;
@@ -43,24 +43,19 @@ ex:npm-1-eth0
     corona:broadcastPacketsReceived "500"^^xsd:unsignedLong ;
     corona:errorPacketsReceived "10"^^xsd:unsignedLong ;
     corona:packetsDroppedReceived "5"^^xsd:unsignedLong ;
-    corona:networkUtilization "35.2"^^xsd:float ; # Conforms to SHACL shape
-    corona:linkSpeed "1000"^^xsd:unsignedInt ; # Assuming units=Mbps implied or specified elsewhere
 
-    corona:readCommandLatency "15.5"^^xsd:float ; # Conforms to SHACL shape
-    # Example specifying units alongside (requires ontology/shape extension for units property)
-    # ex:readCommandLatencyUnits bacnet:EngineeringUnits.milliseconds ;
+    # Sampled Metrics
+    corona:networkUtilization "35.2"^^xsd:float ;
+    corona:linkSpeed "1000"^^xsd:unsignedInt ;
+    corona:readCommandLatency "15.5"^^xsd:float ;
     corona:writeCommandLatency "22.1"^^xsd:float ;
-    corona:requestSuccessPercentage "99.8"^^xsd:float ; # Conforms to SHACL shape
+    corona:requestSuccessPercentage "99.8"^^xsd:float ;
+
+    # Application Metrics
     corona:totalRequests "10000"^^xsd:unsignedLong ;
     corona:successfulResponses "9980"^^xsd:unsignedLong ;
-
-    # --- Additional BACnet-specific Application Metrics ---
-    corona:readPropertyRequests "5000"^^xsd:unsignedLong ; # Total ReadProperty requests
-    corona:readPropertyResponses "4950"^^xsd:unsignedLong ; # Total ReadProperty responses
-    corona:totalProperties "250"^^xsd:unsignedLong ; # Total number of properties
-
-    corona:whoIsRequestsSent "100"^^xsd:unsignedLong ; # Total WhoIs requests sent
-    corona:globalWhoIsRequestsSent "60"^^xsd:unsignedLong ; # Global WhoIs requests
-    corona:directedWhoIsRequestsSent "40"^^xsd:unsignedLong ; # Directed WhoIs requests
-
-    corona:iAmResponsesSent "95"^^xsd:unsignedLong ;. # Total IAm responses sent .
+    corona:readPropertyRequests "5000"^^xsd:unsignedLong ;
+    corona:readPropertyResponses "4950"^^xsd:unsignedLong ;
+    corona:totalProperties "250"^^xsd:unsignedLong ;
+    corona:whoIsRequestsSent "100"^^xsd:unsignedLong ;
+    corona:iAmResponsesSent "95"^^xsd:unsignedLong .
