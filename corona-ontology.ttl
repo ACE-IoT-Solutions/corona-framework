@@ -201,3 +201,94 @@ corona:iAmResponsesReceived a rdf:Property;
     rdfs:comment "Total number of IAm responses received.";
     rdfs:domain corona:ApplicationMetric;
     rdfs:range xsd:unsignedLong .
+
+# --- Additional Network Interface Metrics ---
+
+corona:broadcastPacketsSent rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:NetworkInterfaceMetric ;
+    rdfs:label "Broadcast Packets Sent"@en ;
+    rdfs:comment "Total number of broadcast packets sent from an interface."@en ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:broadcastRelayed rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:NetworkInterfaceMetric ;
+    rdfs:label "Broadcast Packets Relayed"@en ;
+    rdfs:comment "Total number of broadcast packets relayed by this device (acting as a router or gateway)."@en ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+# --- Additional BACnet Application Metrics ---
+
+corona:whoIsRequestsReceived rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "WhoIs Requests Received"@en ;
+    rdfs:comment "Total number of WhoIs requests received."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:readPropertyRequestsSent rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "ReadProperty Requests Sent"@en ;
+    rdfs:comment "Total number of ReadProperty requests sent."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:readPropertyRequestsReceived rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "ReadProperty Requests Received"@en ;
+    rdfs:comment "Total number of ReadProperty requests received."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:readPropertyResponsesSent rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "ReadProperty Responses Sent"@en ;
+    rdfs:comment "Total number of ReadProperty responses sent."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:readPropertyResponsesReceived rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "ReadProperty Responses Received"@en ;
+    rdfs:comment "Total number of ReadProperty responses received."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+# --- BACnet Router Metrics ---
+
+corona:routedMessagesSent rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "Routed Messages Sent"@en ;
+    rdfs:comment "Total number of messages routed and sent to other networks."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:routedMessagesReceived rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "Routed Messages Received"@en ;
+    rdfs:comment "Total number of messages received that were routed from other networks."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:routedVia rdf:type rdf:Property ;
+    rdfs:label "Routed Via"@en ;
+    rdfs:comment "Identifies the router or gateway device through which this message was routed."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range rdfs:Resource ; # Points to another device URI
+    rdfs:isDefinedBy corona: .
+
+corona:routedDevicesSeen rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "Routed Devices Seen"@en ;
+    rdfs:comment "Number of unique devices on other networks that have been seen through routing."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .

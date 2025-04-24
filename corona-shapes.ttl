@@ -78,6 +78,24 @@ corona:NetworkInterfaceMetricShape
         sh:description "Total number of packets sent from the network interface." ;
         sh:datatype xsd:unsignedLong ;
         sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:broadcastPacketsReceived ;
+        sh:description "Total number of broadcast packets received on the network interface." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:broadcastPacketsSent ;
+        sh:description "Total number of broadcast packets sent from the network interface." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:broadcastRelayed ;
+        sh:description "Total number of broadcast packets relayed by this device (acting as a router or gateway)." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
     ] .
 
 # --- Shape for Application Metrics ---
@@ -111,6 +129,66 @@ corona:ApplicationMetricShape
     sh:property [
         sh:path corona:totalProperties ;
         sh:description "Total number of properties available in the BACnet object." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:iAmResponsesReceived ;
+        sh:description "Total number of IAm responses received." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:whoIsRequestsReceived ;
+        sh:description "Total number of WhoIs requests received." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:readPropertyRequestsSent ;
+        sh:description "Total number of ReadProperty requests sent." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:readPropertyRequestsReceived ;
+        sh:description "Total number of ReadProperty requests received." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:readPropertyResponsesSent ;
+        sh:description "Total number of ReadProperty responses sent." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:readPropertyResponsesReceived ;
+        sh:description "Total number of ReadProperty responses received." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:routedMessagesSent ;
+        sh:description "Total number of messages routed and sent to other networks." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:routedMessagesReceived ;
+        sh:description "Total number of messages received that were routed from other networks." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:routedVia ;
+        sh:description "Identifies the router or gateway device through which this message was routed." ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:routedDevicesSeen ;
+        sh:description "Number of unique devices on other networks that have been seen through routing." ;
         sh:datatype xsd:unsignedLong ;
         sh:minCount 0 ;
     ] .
