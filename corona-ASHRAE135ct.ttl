@@ -57,5 +57,23 @@ ex:npm-1-eth0
     corona:readPropertyRequests "5000"^^xsd:unsignedLong ;
     corona:readPropertyResponses "4950"^^xsd:unsignedLong ;
     corona:totalProperties "250"^^xsd:unsignedLong ;
+    
+    # WhoIs/IAm Metrics
     corona:whoIsRequestsSent "100"^^xsd:unsignedLong ;
-    corona:iAmResponsesSent "95"^^xsd:unsignedLong .
+    corona:globalWhoIsRequestsSent "75"^^xsd:unsignedLong ;
+    corona:directedWhoIsRequestsSent "25"^^xsd:unsignedLong ;
+    corona:iAmResponsesSent "95"^^xsd:unsignedLong ;
+    corona:iAmResponsesReceived "105"^^xsd:unsignedLong ;
+    
+    # WhoHas Metrics
+    corona:globalWhoHasRequestsSent "30"^^xsd:unsignedLong ;
+    corona:directedWhoHasRequestsSent "15"^^xsd:unsignedLong ;
+    
+    # Global Broadcast Metrics
+    corona:globalBroadcastMessageCount "220"^^xsd:unsignedLong ;
+    
+    # COV Notification Metrics
+    corona:unconfirmedCOVNotificationsSent "85"^^xsd:unsignedLong ;
+    corona:confirmedCOVNotificationsSent "120"^^xsd:unsignedLong ;
+    corona:unconfirmedCOVNotificationsReceived "65"^^xsd:unsignedLong ;
+    corona:confirmedCOVNotificationsReceived "110"^^xsd:unsignedLong .

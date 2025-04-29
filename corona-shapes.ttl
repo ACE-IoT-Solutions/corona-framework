@@ -5,7 +5,8 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix corona: <http://example.org/standards/corona/metrics#> .
+# @prefix corona: <http://example.org/standards/corona/metrics#> .
+@prefix corona: <http://coronastandard.org/2022#> .
 @prefix ex: <http://example.org/shapes/> . # Namespace for shapes
 
 # --- Base Shape for Performance Metrics ---
@@ -165,6 +166,60 @@ corona:ApplicationMetricShape
     sh:property [
         sh:path corona:readPropertyResponsesReceived ;
         sh:description "Total number of ReadProperty responses received." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:globalWhoIsRequestsSent ;
+        sh:description "Number of global WhoIs requests sent." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:directedWhoIsRequestsSent ;
+        sh:description "Number of directed WhoIs requests sent." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:globalWhoHasRequestsSent ;
+        sh:description "Number of global WhoHas requests sent." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:directedWhoHasRequestsSent ;
+        sh:description "Number of directed WhoHas requests sent." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:globalBroadcastMessageCount ;
+        sh:description "Total number of global broadcast messages sent or received." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:unconfirmedCOVNotificationsSent ;
+        sh:description "Total number of unconfirmed COV notifications sent." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:confirmedCOVNotificationsSent ;
+        sh:description "Total number of confirmed COV notifications sent." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:unconfirmedCOVNotificationsReceived ;
+        sh:description "Total number of unconfirmed COV notifications received." ;
+        sh:datatype xsd:unsignedLong ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path corona:confirmedCOVNotificationsReceived ;
+        sh:description "Total number of confirmed COV notifications received." ;
         sh:datatype xsd:unsignedLong ;
         sh:minCount 0 ;
     ] ;

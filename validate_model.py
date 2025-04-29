@@ -105,6 +105,15 @@ def analyze_ontology():
     
     # List router-related metrics
     list_router_metrics(ontology_graph)
+    
+    # List broadcast-related metrics
+    list_broadcast_metrics(ontology_graph)
+    
+    # List COV notification metrics
+    list_cov_metrics(ontology_graph)
+    
+    # List Who* service metrics (WhoIs and WhoHas)
+    list_who_metrics(ontology_graph)
 
 def count_metrics(graph):
     """Count the different types of metrics in the graph."""
@@ -144,6 +153,84 @@ def list_router_metrics(graph):
     
     # Sort by name and print
     for s, label, comment in sorted(router_metrics, key=lambda x: str(x[0])):
+        print(f"  - {s}")
+        print(f"    Label: {label}")
+        print(f"    Description: {comment}")
+        print()
+
+def list_broadcast_metrics(graph):
+    """List all broadcast-related metrics."""
+    print("\n=== Broadcast-Related Metrics ===")
+    
+    broadcast_metrics = []
+    
+    # Find metrics with 'broadcast' in their name
+    for s, p, o in graph.triples((None, RDF.type, RDF.Property)):
+        if 'broadcast' in str(s).lower():
+            # Get the label if available
+            labels = list(graph.objects(s, RDFS.label))
+            label = labels[0] if labels else "No label"
+            
+            # Get the comment if available
+            comments = list(graph.objects(s, RDFS.comment))
+            comment = comments[0] if comments else "No description"
+            
+            broadcast_metrics.append((s, label, comment))
+    
+    # Sort by name and print
+    for s, label, comment in sorted(broadcast_metrics, key=lambda x: str(x[0])):
+        print(f"  - {s}")
+        print(f"    Label: {label}")
+        print(f"    Description: {comment}")
+        print()
+
+def list_cov_metrics(graph):
+    """List all COV notification-related metrics."""
+    print("\n=== COV Notification Metrics ===")
+    
+    cov_metrics = []
+    
+    # Find metrics with 'COVNotification' in their name
+    for s, p, o in graph.triples((None, RDF.type, RDF.Property)):
+        if 'COVNotification' in str(s):
+            # Get the label if available
+            labels = list(graph.objects(s, RDFS.label))
+            label = labels[0] if labels else "No label"
+            
+            # Get the comment if available
+            comments = list(graph.objects(s, RDFS.comment))
+            comment = comments[0] if comments else "No description"
+            
+            cov_metrics.append((s, label, comment))
+    
+    # Sort by name and print
+    for s, label, comment in sorted(cov_metrics, key=lambda x: str(x[0])):
+        print(f"  - {s}")
+        print(f"    Label: {label}")
+        print(f"    Description: {comment}")
+        print()
+
+def list_who_metrics(graph):
+    """List all Who* service-related metrics."""
+    print("\n=== Who* Service Metrics ===")
+    
+    who_metrics = []
+    
+    # Find metrics with 'Who' in their name
+    for s, p, o in graph.triples((None, RDF.type, RDF.Property)):
+        if 'Who' in str(s):
+            # Get the label if available
+            labels = list(graph.objects(s, RDFS.label))
+            label = labels[0] if labels else "No label"
+            
+            # Get the comment if available
+            comments = list(graph.objects(s, RDFS.comment))
+            comment = comments[0] if comments else "No description"
+            
+            who_metrics.append((s, label, comment))
+    
+    # Sort by name and print
+    for s, label, comment in sorted(who_metrics, key=lambda x: str(x[0])):
         print(f"  - {s}")
         print(f"    Label: {label}")
         print(f"    Description: {comment}")

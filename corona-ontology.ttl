@@ -260,6 +260,68 @@ corona:readPropertyResponsesReceived rdf:type rdf:Property ;
     rdfs:range xsd:unsignedLong ;
     rdfs:isDefinedBy corona: .
 
+# --- Global Broadcast Metrics ---
+
+corona:globalBroadcastMessageCount rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "Global Broadcast Message Count"@en ;
+    rdfs:comment "Total number of global broadcast messages sent or received."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+# --- WhoHas Metrics ---
+
+corona:globalWhoHasRequestsSent rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "Global WhoHas Requests Sent"@en ;
+    rdfs:comment "Number of global WhoHas requests sent."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:directedWhoHasRequestsSent rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "Directed WhoHas Requests Sent"@en ;
+    rdfs:comment "Number of directed WhoHas requests sent."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+# --- COV Notification Metrics ---
+
+corona:unconfirmedCOVNotificationsSent rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "Unconfirmed COV Notifications Sent"@en ;
+    rdfs:comment "Total number of unconfirmed COV notifications sent."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:confirmedCOVNotificationsSent rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "Confirmed COV Notifications Sent"@en ;
+    rdfs:comment "Total number of confirmed COV notifications sent."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:unconfirmedCOVNotificationsReceived rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "Unconfirmed COV Notifications Received"@en ;
+    rdfs:comment "Total number of unconfirmed COV notifications received."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:confirmedCOVNotificationsReceived rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "Confirmed COV Notifications Received"@en ;
+    rdfs:comment "Total number of confirmed COV notifications received."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
 # --- BACnet Router Metrics ---
 
 corona:routedMessagesSent rdf:type rdf:Property ;
