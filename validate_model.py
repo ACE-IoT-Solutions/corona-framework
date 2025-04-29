@@ -103,8 +103,17 @@ def analyze_ontology():
     # Count metrics by type
     count_metrics(ontology_graph)
     
+    # List general metric properties
+    list_general_metric_properties(ontology_graph)
+    
+    # List message count metrics
+    list_message_count_metrics(ontology_graph)
+    
     # List router-related metrics
     list_router_metrics(ontology_graph)
+    
+    # List BBMD-related metrics
+    list_bbmd_metrics(ontology_graph)
     
     # List broadcast-related metrics
     list_broadcast_metrics(ontology_graph)
@@ -138,9 +147,9 @@ def list_router_metrics(graph):
     
     router_metrics = []
     
-    # Find metrics with 'routed' in their name
+    # Find metrics with 'routed' or 'messagesRouted' in their name
     for s, p, o in graph.triples((None, RDF.type, RDF.Property)):
-        if 'routed' in str(s).lower():
+        if 'routed' in str(s).lower() or 'messagesRouted' in str(s):
             # Get the label if available
             labels = list(graph.objects(s, RDFS.label))
             label = labels[0] if labels else "No label"
@@ -153,6 +162,32 @@ def list_router_metrics(graph):
     
     # Sort by name and print
     for s, label, comment in sorted(router_metrics, key=lambda x: str(x[0])):
+        print(f"  - {s}")
+        print(f"    Label: {label}")
+        print(f"    Description: {comment}")
+        print()
+
+def list_bbmd_metrics(graph):
+    """List all BBMD-related metrics."""
+    print("\n=== BBMD-Related Metrics ===")
+    
+    bbmd_metrics = []
+    
+    # Find metrics with 'forwarded' in their name
+    for s, p, o in graph.triples((None, RDF.type, RDF.Property)):
+        if 'forwarded' in str(s).lower():
+            # Get the label if available
+            labels = list(graph.objects(s, RDFS.label))
+            label = labels[0] if labels else "No label"
+            
+            # Get the comment if available
+            comments = list(graph.objects(s, RDFS.comment))
+            comment = comments[0] if comments else "No description"
+            
+            bbmd_metrics.append((s, label, comment))
+    
+    # Sort by name and print
+    for s, label, comment in sorted(bbmd_metrics, key=lambda x: str(x[0])):
         print(f"  - {s}")
         print(f"    Label: {label}")
         print(f"    Description: {comment}")
@@ -231,6 +266,61 @@ def list_who_metrics(graph):
     
     # Sort by name and print
     for s, label, comment in sorted(who_metrics, key=lambda x: str(x[0])):
+        print(f"  - {s}")
+        print(f"    Label: {label}")
+        print(f"    Description: {comment}")
+        print()
+
+def list_general_metric_properties(graph):
+    """List all general metric properties."""
+    print("\n=== General Metric Properties ===")
+    
+    general_properties = []
+    
+    # Find general metric properties
+    general_property_names = ['observedFrom', 'description', 'metric-identifier', 'metric-name']
+    for s, p, o in graph.triples((None, RDF.type, RDF.Property)):
+        for prop_name in general_property_names:
+            if prop_name in str(s):
+                # Get the label if available
+                labels = list(graph.objects(s, RDFS.label))
+                label = labels[0] if labels else "No label"
+                
+                # Get the comment if available
+                comments = list(graph.objects(s, RDFS.comment))
+                comment = comments[0] if comments else "No description"
+                
+                general_properties.append((s, label, comment))
+                break
+    
+    # Sort by name and print
+    for s, label, comment in sorted(general_properties, key=lambda x: str(x[0])):
+        print(f"  - {s}")
+        print(f"    Label: {label}")
+        print(f"    Description: {comment}")
+        print()
+
+def list_message_count_metrics(graph):
+    """List all message count metrics."""
+    print("\n=== Message Count Metrics ===")
+    
+    message_metrics = []
+    
+    # Find metrics with 'message' in their name
+    for s, p, o in graph.triples((None, RDF.type, RDF.Property)):
+        if 'message' in str(s).lower() or 'bacnetmessage' in str(s).lower():
+            # Get the label if available
+            labels = list(graph.objects(s, RDFS.label))
+            label = labels[0] if labels else "No label"
+            
+            # Get the comment if available
+            comments = list(graph.objects(s, RDFS.comment))
+            comment = comments[0] if comments else "No description"
+            
+            message_metrics.append((s, label, comment))
+    
+    # Sort by name and print
+    for s, label, comment in sorted(message_metrics, key=lambda x: str(x[0])):
         print(f"  - {s}")
         print(f"    Label: {label}")
         print(f"    Description: {comment}")

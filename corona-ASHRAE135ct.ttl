@@ -33,7 +33,10 @@ ex:npm-1-eth0
     bacnet:units bacnet:EngineeringUnits.no-units ;
 
     # --- Metrics reported using Corona properties ---
-    corona:observedFrom ex:dev-15-chattanooga ; # Observation node
+    corona:observedFrom ex:dev-15-chattanooga ; # Observation node - this indicates the device where these metrics were collected/calculated
+    corona:description "Performance metrics for the primary Ethernet interface collected via BACnet/IP monitoring on the building controller in Chattanooga facility." ;
+    corona:metric-identifier "npm-eth0-chattanooga-001" ;
+    corona:metric-name "Chattanooga Building Controller Network Performance" ;
 
     # Lifetime Metrics
     corona:bytesReceived "104857600"^^xsd:unsignedLong ;
@@ -71,9 +74,15 @@ ex:npm-1-eth0
     
     # Global Broadcast Metrics
     corona:globalBroadcastMessageCount "220"^^xsd:unsignedLong ;
+    corona:totalBacnetMessagesSent "15425"^^xsd:unsignedLong ;
+    corona:totalBroadcastsSent "540"^^xsd:unsignedLong ;
     
     # COV Notification Metrics
     corona:unconfirmedCOVNotificationsSent "85"^^xsd:unsignedLong ;
     corona:confirmedCOVNotificationsSent "120"^^xsd:unsignedLong ;
     corona:unconfirmedCOVNotificationsReceived "65"^^xsd:unsignedLong ;
-    corona:confirmedCOVNotificationsReceived "110"^^xsd:unsignedLong .
+    corona:confirmedCOVNotificationsReceived "110"^^xsd:unsignedLong ;
+    
+    # Router and BBMD Metrics
+    corona:messagesRouted "250"^^xsd:unsignedLong ;
+    corona:messagesForwarded "175"^^xsd:unsignedLong .

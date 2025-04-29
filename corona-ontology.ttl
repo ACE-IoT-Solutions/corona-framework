@@ -32,13 +32,34 @@ corona:ApplicationMetric rdf:type rdfs:Class ;
     rdfs:label "Application Metric"@en ;
     rdfs:comment "A performance metric primarily associated with application-level interactions or protocol behavior."@en .
 
-# --- Observation Node Property ---
+# --- General Metric Properties ---
 
 corona:observedFrom rdf:type rdf:Property ;
     rdfs:label "Observed From"@en ;
-    rdfs:comment "Specifies the node in the network from which the metric is observed."@en ;
+    rdfs:comment "Specifies the observer node in the network where these metrics were collected or calculated. This is the monitoring point (capture device, analyzer, or network tap) rather than the device about which the metrics were observed. In some cases, the observer might be the same device that generated the traffic."@en ;
     rdfs:domain corona:PerformanceMetric ;
     rdfs:range rdfs:Resource ; # Can point to any network node or resource
+    rdfs:isDefinedBy corona: .
+
+corona:description rdf:type rdf:Property ;
+    rdfs:label "Description"@en ;
+    rdfs:comment "Provides a detailed description of this metric instance, including context about how it was collected or calculated."@en ;
+    rdfs:domain corona:PerformanceMetric ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy corona: .
+
+corona:metric-identifier rdf:type rdf:Property ;
+    rdfs:label "Metric Identifier"@en ;
+    rdfs:comment "A unique identifier for this specific metric instance to distinguish it from other similar metric instances in the same system."@en ;
+    rdfs:domain corona:PerformanceMetric ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy corona: .
+
+corona:metric-name rdf:type rdf:Property ;
+    rdfs:label "Metric Name"@en ;
+    rdfs:comment "A human-readable name for this metric instance that can be used for display purposes."@en ;
+    rdfs:domain corona:PerformanceMetric ;
+    rdfs:range xsd:string ;
     rdfs:isDefinedBy corona: .
 
 # --- Network Interface Metric Properties ---
@@ -270,6 +291,22 @@ corona:globalBroadcastMessageCount rdf:type rdf:Property ;
     rdfs:range xsd:unsignedLong ;
     rdfs:isDefinedBy corona: .
 
+corona:totalBacnetMessagesSent rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "Total BACnet Messages Sent"@en ;
+    rdfs:comment "Total number of BACnet messages sent by this device."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:totalBroadcastsSent rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "Total Broadcasts Sent"@en ;
+    rdfs:comment "Total number of broadcast messages (any type) sent by this device."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
 # --- WhoHas Metrics ---
 
 corona:globalWhoHasRequestsSent rdf:type rdf:Property ;
@@ -351,6 +388,22 @@ corona:routedDevicesSeen rdf:type rdf:Property ;
     rdfs:subPropertyOf corona:LifetimeMetric ;
     rdfs:label "Routed Devices Seen"@en ;
     rdfs:comment "Number of unique devices on other networks that have been seen through routing."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:messagesRouted rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "Messages Routed"@en ;
+    rdfs:comment "Total number of messages routed by this device acting as a router."@en ;
+    rdfs:domain corona:ApplicationMetric ;
+    rdfs:range xsd:unsignedLong ;
+    rdfs:isDefinedBy corona: .
+
+corona:messagesForwarded rdf:type rdf:Property ;
+    rdfs:subPropertyOf corona:LifetimeMetric ;
+    rdfs:label "Messages Forwarded"@en ;
+    rdfs:comment "Total number of messages forwarded by this device acting as a BBMD."@en ;
     rdfs:domain corona:ApplicationMetric ;
     rdfs:range xsd:unsignedLong ;
     rdfs:isDefinedBy corona: .

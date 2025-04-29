@@ -1,6 +1,6 @@
 # OT Performance Metrics ("Corona") Standard - Draft
 
-**Current Date:** Friday, April 18, 2025
+**Current Date:** Monday, April 29, 2025
 
 
 **(Working Title Note: The name "Corona" is used here as per initial discussion, but a different name might be preferable for a formal standard due to potential external associations.)**
@@ -36,9 +36,29 @@ This repository (conceptually) contains the following components:
 4.  **`README.md`**:
     * This file.
 
-## New Metrics
+## Properties and Metrics
 
-The following new metrics have been added to the Corona standard to support BACnet-specific application performance monitoring:
+### General Metric Properties
+
+1. **`observedFrom`**:
+   * **Description:** Specifies the observer node in the network where these metrics were collected or calculated. This is the monitoring point (capture device, analyzer, or network tap) rather than the device about which the metrics were observed.
+   * **Domain:** `PerformanceMetric`
+   * **Range:** `rdfs:Resource`
+
+2. **`description`**:
+   * **Description:** Provides a detailed description of this metric instance, including context about how it was collected or calculated.
+   * **Domain:** `PerformanceMetric`
+   * **Range:** `xsd:string`
+
+3. **`metric-identifier`**:
+   * **Description:** A unique identifier for this specific metric instance to distinguish it from other similar metric instances in the same system.
+   * **Domain:** `PerformanceMetric`
+   * **Range:** `xsd:string`
+
+4. **`metric-name`**:
+   * **Description:** A human-readable name for this metric instance that can be used for display purposes.
+   * **Domain:** `PerformanceMetric`
+   * **Range:** `xsd:string`
 
 ### BACnet-Specific Application Metrics
 
@@ -62,8 +82,102 @@ The following new metrics have been added to the Corona standard to support BACn
    * **Domain:** `ApplicationMetric`
    * **Range:** `xsd:unsignedLong`
 
-5. **`iAmResponsesReceived`**:
-   * **Description:** Total number of `I-am` responses received.
+5. **`globalWhoIsRequestsSent`**:
+   * **Description:** Number of global `Who-Is` requests sent.
+   * **Domain:** `ApplicationMetric`
+   * **Range:** `xsd:unsignedLong`
+
+6. **`directedWhoIsRequestsSent`**:
+   * **Description:** Number of directed `Who-Is` requests sent.
+   * **Domain:** `ApplicationMetric`
+   * **Range:** `xsd:unsignedLong`
+
+7. **`globalWhoHasRequestsSent`**:
+   * **Description:** Number of global `WhoHas` requests sent.
+   * **Domain:** `ApplicationMetric`
+   * **Range:** `xsd:unsignedLong`
+
+8. **`directedWhoHasRequestsSent`**:
+   * **Description:** Number of directed `WhoHas` requests sent.
+   * **Domain:** `ApplicationMetric`
+   * **Range:** `xsd:unsignedLong`
+
+9. **`iAmResponsesSent`**:
+   * **Description:** Total number of `I-am` responses sent.
+   * **Domain:** `ApplicationMetric`
+   * **Range:** `xsd:unsignedLong`
+
+10. **`iAmResponsesReceived`**:
+    * **Description:** Total number of `I-am` responses received.
+    * **Domain:** `ApplicationMetric`
+    * **Range:** `xsd:unsignedLong`
+
+11. **`globalBroadcastMessageCount`**:
+    * **Description:** Total number of global broadcast messages sent or received.
+    * **Domain:** `ApplicationMetric`
+    * **Range:** `xsd:unsignedLong`
+
+12. **`totalBacnetMessagesSent`**:
+    * **Description:** Total number of BACnet messages sent by this device.
+    * **Domain:** `ApplicationMetric`
+    * **Range:** `xsd:unsignedLong`
+
+13. **`totalBroadcastsSent`**:
+    * **Description:** Total number of broadcast messages (any type) sent by this device.
+    * **Domain:** `ApplicationMetric`
+    * **Range:** `xsd:unsignedLong`
+
+### COV Notification Metrics
+
+1. **`unconfirmedCOVNotificationsSent`**:
+   * **Description:** Total number of unconfirmed COV notifications sent.
+   * **Domain:** `ApplicationMetric`
+   * **Range:** `xsd:unsignedLong`
+
+2. **`confirmedCOVNotificationsSent`**:
+   * **Description:** Total number of confirmed COV notifications sent.
+   * **Domain:** `ApplicationMetric`
+   * **Range:** `xsd:unsignedLong`
+
+3. **`unconfirmedCOVNotificationsReceived`**:
+   * **Description:** Total number of unconfirmed COV notifications received.
+   * **Domain:** `ApplicationMetric`
+   * **Range:** `xsd:unsignedLong`
+
+4. **`confirmedCOVNotificationsReceived`**:
+   * **Description:** Total number of confirmed COV notifications received.
+   * **Domain:** `ApplicationMetric`
+   * **Range:** `xsd:unsignedLong`
+
+### Router and BBMD Metrics
+
+1. **`messagesRouted`**:
+   * **Description:** Total number of messages routed by this device acting as a router.
+   * **Domain:** `ApplicationMetric`
+   * **Range:** `xsd:unsignedLong`
+
+2. **`messagesForwarded`**:
+   * **Description:** Total number of messages forwarded by this device acting as a BBMD.
+   * **Domain:** `ApplicationMetric`
+   * **Range:** `xsd:unsignedLong`
+
+3. **`routedMessagesSent`**:
+   * **Description:** Total number of messages routed and sent to other networks.
+   * **Domain:** `ApplicationMetric`
+   * **Range:** `xsd:unsignedLong`
+
+4. **`routedMessagesReceived`**:
+   * **Description:** Total number of messages received that were routed from other networks.
+   * **Domain:** `ApplicationMetric`
+   * **Range:** `xsd:unsignedLong`
+
+5. **`routedVia`**:
+   * **Description:** Identifies the router or gateway device through which this message was routed.
+   * **Domain:** `ApplicationMetric`
+   * **Range:** `rdfs:Resource`
+
+6. **`routedDevicesSeen`**:
+   * **Description:** Number of unique devices on other networks that have been seen through routing.
    * **Domain:** `ApplicationMetric`
    * **Range:** `xsd:unsignedLong`
 
