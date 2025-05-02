@@ -190,6 +190,59 @@ This repository (conceptually) contains the following components:
     * Map existing or vendor-specific BACnet properties to `corona:` properties using `rdfs:subPropertyOf` or `owl:sameAs` (if OWL is used).
     * Ensure generated RDF instances are declared with appropriate `corona:` classes (e.g., `corona:NetworkInterfaceMetric`) to be targeted by the SHACL shapes.
 
+## Output Formats
+
+The Corona standard supports multiple output formats to facilitate integration with different systems and tools:
+
+### 1. TTL (Turtle) Format
+
+The primary representation format using RDF semantic web technologies:
+- Uses subject-predicate-object triples
+- Organizes metrics with namespaces: `corona:` and `bacnet:`
+- Links devices and interfaces with relationship predicates
+- Example: `ex:addr_10.21.52.5 corona:globalWhoIsRequestsSent "8"^^xsd:unsignedLong`
+
+### 2. Project Haystack Formats
+
+#### JSON Format
+- Row-based representation with metadata in header
+- Column-based representation with type information
+- One row per (entity, metric) combination
+- Example: `{"metric":"globalWhoIsRequestsSent", "val":8, "entity":"@addr_10.21.52.5"}`
+
+#### Zinc Format
+- Compact representation of the JSON format
+- Brief headers and row-based data
+- Uses `@id` refs and marker syntax
+- Example: `@addr_10.21.52.5 ... metric:"globalWhoIsRequestsSent" val:8`
+
+### 3. Prometheus Exposition Format
+
+Text-based format following OpenTelemetry conventions:
+- Metric name + labels pattern
+- Type and help metadata as comments
+- Counter metrics with `_total` suffix
+- Example: `bacnet_global_whois_requests_total{device_id="",address="10.21.52.5"} 8`
+
+### Format Mapping
+
+Metrics maintain consistent semantic meaning across formats with format-specific naming conventions:
+
+| TTL (Corona) | Prometheus | Haystack (JSON/Zinc) |
+|--------------|------------|----------------------|
+| corona:globalWhoIsRequestsSent | bacnet_global_whois_requests_total | metric:"globalWhoIsRequestsSent" |
+| corona:packetsReceived | bacnet_packets_total | metric:"packetsReceived" |
+| corona:totalBacnetMessagesSent | bacnet_messages_sent_total | metric:"totalBacnetMessagesSent" |
+| corona:messagesRouted | bacnet_messages_routed_total | metric:"messagesRouted" |
+
+### Format Conversion Principles
+
+When translating between formats, the following principles are maintained:
+1. **Semantic equivalence**: Same metrics with different syntax
+2. **Namespace mapping**: Corona/bacnet → bacnet_ prefix (Prometheus)
+3. **Structure transformation**: Resource-centric (TTL) to row-based (Haystack) 
+4. **Data type alignment**: XSD types (TTL) → native JSON types → text (Prometheus)
+
 ## Status
 
 **DRAFT / PROPOSAL:** The specifications contained herein are conceptual drafts and do not represent an official standard. They are intended for discussion, experimentation, and refinement.

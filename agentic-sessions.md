@@ -1,5 +1,36 @@
 # Agentic Sessions
 
+## 2024-05-02: Multi-Format Output Support
+
+Added documentation and implementation for multiple output formats to enable integration with various systems:
+
+1. **TTL (Turtle) Format**
+   - Primary semantic representation following the Corona ontology
+   - Uses subject-predicate-object triples with RDF semantics
+   - Maintains full relationship context between metrics and devices
+
+2. **Project Haystack Formats**
+   - Added JSON format support with row-based representation
+   - Added Zinc format as a compact alternative to JSON
+   - Implemented consistent naming conventions between Corona and Haystack
+
+3. **Prometheus Exposition Format**
+   - Added support for OpenTelemetry-compatible text format
+   - Implemented counter metrics with `_total` suffix
+   - Added type and help metadata as comments
+
+4. **Format Translation**
+   - Created consistent mapping between all formats:
+     - TTL → Prometheus (e.g., `corona:globalWhoIsRequestsSent` → `bacnet_global_whois_requests_total`)
+     - TTL → Haystack (e.g., `corona:globalWhoIsRequestsSent` → `metric:"globalWhoIsRequestsSent"`)
+   - Maintained semantic equivalence across formats
+   - Implemented data type transformations (XSD → JSON → text)
+
+5. **Sample Outputs**
+   - Added sample files demonstrating all formats
+   - Created documentation with format comparison
+   - Added examples showing the same metrics in different formats
+
 ## 2024-04-29: Enhanced BACnet Metrics Framework
 
 Added new metrics to the Corona framework:
