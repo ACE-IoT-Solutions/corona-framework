@@ -1,0 +1,31 @@
+[project]
+name = "corona-standard"
+version = "0.1.1"
+description = "Pydantic models and utilities for the Corona OT Performance Metrics Standard"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "click>=8.0", # Add click
+    "pydantic>=2.0",
+    "pyshacl>=0.30.1",
+    "rdflib>=7.0.0",
+]
+
+[project.scripts]
+corona-cli = "src.corona_tool:cli"
+
+[build-system]
+# Use setuptools as the build backend
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+# Explicitly tell setuptools where to find the packages
+packages = ["src"]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.15.0",
+    "pytest>=8.3.5",
+    "ruff>=0.11.8",
+]

@@ -1,71 +1,49 @@
-from rdflib import Graph, Namespace, RDF, RDFS
+from rdflib import Graph, RDF, RDFS
 from pyshacl import validate
-import sys
+import os
+from typing import Optional
+from constants import CORONA
 
 # File paths - get absolute paths based on script location
-import os
-script_dir = os.path.dirname(os.path.abspath(__file__))
-example_model_path = os.path.join(script_dir, "corona-ASHRAE135ct.ttl")
-shapes_file_path = os.path.join(script_dir, "corona-shapes.ttl")
-ontology_path = os.path.join(script_dir, "corona-ontology.ttl")
+script_dir = os.path.dirname(os.path.abspath(__file__)) # src directory
+project_root = os.path.dirname(script_dir) # Project root
 
-# Define Corona namespace
-CORONA = Namespace("http://example.org/standards/corona/metrics#")
+# Updated paths to data and examples directories
+example_model_path = os.path.join(project_root, "examples", "corona-ASHRAE135ct.ttl")
+shapes_file_path = os.path.join(project_root, "data", "corona-shapes.ttl")
+ontology_path = os.path.join(project_root, "data", "corona-ontology.ttl")
 
-def print_usage():
-    """Print the usage information for the script."""
-    print("Usage: python validate_model.py [OPTIONS] [MODEL_FILE]")
-    print("\nOptions:")
-    print("  --help              Show this help message and exit")
-    print("  --analyze           Analyze the Corona ontology and print metrics statistics")
-    print("\nArguments:")
-    print("  MODEL_FILE          Path to the Turtle (.ttl) model file to validate")
-    print("                      If not provided, defaults to corona-ASHRAE135ct.ttl")
-    print("\nExamples:")
-    print("  python validate_model.py                       # Validate the default model")
-    print("  python validate_model.py --analyze             # Validate default model and analyze ontology")
-    print("  python validate_model.py path/to/metrics.ttl   # Validate a custom model file")
-    print("  python validate_model.py metrics.ttl --analyze # Validate custom model and analyze ontology")
+def validate_model(model_path: Optional[str] = None, analyze_flag: bool = False):
+    """Validates a given model file against SHACL shapes and optionally analyzes the ontology."""
+    # Use the provided model path if available, otherwise use the default example
+    effective_model_path = model_path if model_path else example_model_path
 
-def validate_model():
-    # Check if a custom model file was provided as an argument
-    custom_model_path = None
-    analyze_flag = False
-    
-    # Parse command-line arguments
-    for arg in sys.argv[1:]:
-        if arg == "--analyze":
-            analyze_flag = True
-        elif arg == "--help":
-            print_usage()
-            sys.exit(0)
-        elif not arg.startswith('--'):
-            custom_model_path = arg
-    
-    # Use the custom model path if provided, otherwise use the default
-    model_path = custom_model_path if custom_model_path else example_model_path
-    
+    # Ensure paths are absolute or correctly relative to the project root
+    # (The paths defined above using project_root should already be correct)
+    current_shapes_file_path = shapes_file_path
+    current_ontology_path = ontology_path
+
     # Load the model to validate
     data_graph = Graph()
     try:
-        data_graph.parse(model_path, format="turtle")
-        print(f"Loaded model from {model_path}")
+        data_graph.parse(effective_model_path, format="turtle")
+        print(f"Loaded model from {effective_model_path}")
         print(f"Model contains {len(data_graph)} triples")
     except Exception as e:
-        print("An error occurred while processing the model file:")
+        print(f"An error occurred while processing the model file: {effective_model_path}")
         print(f"Error: {e}")
-        sys.exit(1)
+        return  # Return instead of sys.exit
 
     # Load the SHACL shapes
     shapes_graph = Graph()
     try:
-        shapes_graph.parse(shapes_file_path, format="turtle")
-        print(f"Loaded SHACL shapes from {shapes_file_path}")
+        shapes_graph.parse(current_shapes_file_path, format="turtle")
+        print(f"Loaded SHACL shapes from {current_shapes_file_path}")
         print(f"Shapes graph contains {len(shapes_graph)} triples")
     except Exception as e:
-        print("An error occurred while processing the shapes file:")
+        print(f"An error occurred while processing the shapes file: {current_shapes_file_path}")
         print(f"Error: {e}")
-        sys.exit(1)
+        return  # Return instead of sys.exit
 
     # Perform validation
     conforms, results_graph, results_text = validate(
@@ -77,24 +55,27 @@ def validate_model():
 
     # Print results
     if conforms:
-        print("Validation successful! The data conforms to the SHACL shapes.")
+        print("\nValidation successful! The data conforms to the SHACL shapes.")
     else:
-        print("Validation failed. See details below:")
+        print("\nValidation failed. See details below:")
         print(results_text)
-    
+
     # Additional ontology analysis
     if analyze_flag:
-        analyze_ontology()
+        analyze_ontology(current_ontology_path)  # Pass path to analyze_ontology
 
-def analyze_ontology():
+def analyze_ontology(ont_path: str = ontology_path):
     """Analyze the Corona ontology and print metrics statistics."""
     print("\n--- Corona Ontology Analysis ---")
-    
+
+    # Use the provided ontology path if available, otherwise use the default
+    effective_ont_path = ont_path if ont_path else ontology_path
+
     # Load the ontology
     ontology_graph = Graph()
     try:
-        ontology_graph.parse(ontology_path, format="turtle")
-        print(f"Successfully loaded the Corona ontology.")
+        ontology_graph.parse(effective_ont_path, format="turtle")
+        print(f"Successfully loaded the Corona ontology from {effective_ont_path}.")
         print(f"Ontology contains {len(ontology_graph)} triples.")
     except Exception as e:
         print(f"Error loading ontology: {e}")
@@ -325,11 +306,3 @@ def list_message_count_metrics(graph):
         print(f"    Label: {label}")
         print(f"    Description: {comment}")
         print()
-
-if __name__ == "__main__":
-    # Check for help flag directly
-    if len(sys.argv) > 1 and sys.argv[1] == "--help":
-        print_usage()
-        sys.exit(0)
-    
-    validate_model()
