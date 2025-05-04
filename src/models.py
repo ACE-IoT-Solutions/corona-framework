@@ -5,7 +5,7 @@ from datetime import datetime
 import json
 from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import RDF, RDFS, XSD
-from constants import CORONA, BACNET
+from .constants import CORONA, BACNET
 
 
 def to_camel_case(snake_str: str) -> str:

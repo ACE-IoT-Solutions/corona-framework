@@ -1,7 +1,7 @@
 from rdflib import Graph, RDF, RDFS
 from pyshacl import validate
 import os
-from constants import CORONA
+from .constants import CORONA
 
 # File paths - get absolute paths based on script location
 script_dir = os.path.dirname(os.path.abspath(__file__)) # src directory
@@ -63,7 +63,7 @@ def validate_model(model_path: str | None = None, analyze_flag: bool = False) ->
     if analyze_flag:
         analyze_ontology(current_ontology_path)  # Pass path to analyze_ontology
 
-def analyze_ontology(ont_path: str = ontology_path) -> None:
+def analyze_ontology(ont_path: str | None = ontology_path) -> None:
     """Analyze the Corona ontology and print metrics statistics."""
     print("\n--- Corona Ontology Analysis ---")
 

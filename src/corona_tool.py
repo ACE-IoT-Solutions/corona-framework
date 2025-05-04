@@ -2,7 +2,7 @@ import click
 import json
 import sys
 import os
-from typing import List
+from typing import List, Dict, Any
 from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import RDF, RDFS, XSD
 
@@ -97,12 +97,16 @@ def generate(metric_type: str, output_format: str, output: str | None) -> None:
         for metric in metrics:
             add_metric_to_graph(metric, combined_graph)
         output_str = combined_graph.serialize(format='turtle')
-    else:
-        output_lines = []
+    elif output_format == 'haystack':
+        output_dicts: List[Dict[str, Any]] = []
         for metric in metrics:
-            if output_format == 'haystack':
-                output_lines.extend(metric.to_haystack_json())
-            elif output_format == 'prometheus':
+            output_dicts.extend(metric.to_haystack_json())
+        output_str = json.dumps(output_dicts)
+
+    else:
+        output_lines: List[str] = []
+        for metric in metrics:
+            if output_format == 'prometheus':
                 output_lines.extend(metric.to_prometheus())
             elif output_format == 'json':
                 # Use model_dump_json for Pydantic v2 for direct JSON string output

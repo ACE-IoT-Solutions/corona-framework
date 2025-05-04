@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import List
-from models import BaseMetric, BacnetApplicationMetric, COVNotificationMetric, RouterBBMDMetric
+from .models import BaseMetric, BacnetApplicationMetric, COVNotificationMetric, RouterBBMDMetric
 
 def generate_sample_bacnet_app_metric() -> BacnetApplicationMetric:
     """Generates a sample BacnetApplicationMetric instance."""
