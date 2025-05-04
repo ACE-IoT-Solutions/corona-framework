@@ -1,4 +1,3 @@
-\
 from datetime import datetime
 from typing import List
 from models import BaseMetric, BacnetApplicationMetric, COVNotificationMetric, RouterBBMDMetric

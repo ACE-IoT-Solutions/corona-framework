@@ -3,5 +3,5 @@ from rdflib import Namespace
 
 # Define namespaces (adjust URIs as needed)
 
-CORONA = Namespace("http://example.com/corona#")
-BACNET = Namespace("http://example.com/bacnet#")
+CORONA: Namespace = Namespace("http://example.com/corona#")
+BACNET: Namespace = Namespace("http://example.com/bacnet#")

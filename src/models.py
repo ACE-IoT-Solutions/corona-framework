@@ -1,6 +1,6 @@
 import re
 from typing import Optional, Dict, Any, List
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from datetime import datetime
 import json
 from rdflib import Graph, Literal, URIRef
@@ -13,7 +13,7 @@ def to_camel_case(snake_str: str) -> str:
     components = snake_str.split('_')
     return components[0] + ''.join(x.title() for x in components[1:])
 
-def format_rdflib_literal(value: Any) -> Literal:
+def format_rdflib_literal(value: Any) -> Literal | URIRef:
     """Formats a Python value as an RDFLib Literal with appropriate datatype."""
     if isinstance(value, bool):
         return Literal(value, datatype=XSD.boolean)
@@ -46,6 +46,7 @@ def to_prometheus_metric_name(metric_name: str, prefix: str = "bacnet") -> str:
     return f"{prefix}_{snake_case_name}{suffix}"
 
 class BaseMetric(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     """Base model for all performance metrics."""
     metric_instance_uri: str = Field(..., description="Unique URI for this specific metric reading instance.")
     observed_from: Optional[str] = Field(None, description="Observer node (URI or identifier) where metrics were collected.")
@@ -239,6 +240,7 @@ if __name__ == '__main__':
         total_bacnet_messages_sent=200,
         total_broadcasts_received=15
     )
+
 
     print("--- TTL Output (RDFLib) ---")
     print(metric_instance.to_ttl())

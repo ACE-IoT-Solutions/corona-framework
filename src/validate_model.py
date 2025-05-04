@@ -1,7 +1,6 @@
 from rdflib import Graph, RDF, RDFS
 from pyshacl import validate
 import os
-from typing import Optional
 from constants import CORONA
 
 # File paths - get absolute paths based on script location
@@ -13,7 +12,7 @@ example_model_path = os.path.join(project_root, "examples", "corona-ASHRAE135ct.
 shapes_file_path = os.path.join(project_root, "data", "corona-shapes.ttl")
 ontology_path = os.path.join(project_root, "data", "corona-ontology.ttl")
 
-def validate_model(model_path: Optional[str] = None, analyze_flag: bool = False):
+def validate_model(model_path: str | None = None, analyze_flag: bool = False) -> None:
     """Validates a given model file against SHACL shapes and optionally analyzes the ontology."""
     # Use the provided model path if available, otherwise use the default example
     effective_model_path = model_path if model_path else example_model_path
@@ -64,7 +63,7 @@ def validate_model(model_path: Optional[str] = None, analyze_flag: bool = False)
     if analyze_flag:
         analyze_ontology(current_ontology_path)  # Pass path to analyze_ontology
 
-def analyze_ontology(ont_path: str = ontology_path):
+def analyze_ontology(ont_path: str = ontology_path) -> None:
     """Analyze the Corona ontology and print metrics statistics."""
     print("\n--- Corona Ontology Analysis ---")
 

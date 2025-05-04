@@ -20,7 +20,7 @@ except ImportError as e:
     print("Ensure the script is run from the project root directory (`corona-standard/`)", file=sys.stderr)
     sys.exit(1)
 
-def add_metric_to_graph(metric: BaseMetric, g: Graph):
+def add_metric_to_graph(metric: BaseMetric, g: Graph) -> None:
     """Adds the triples for a single metric instance to an existing RDFLib Graph."""
     try:
         instance_uri = URIRef(metric.metric_instance_uri)
@@ -65,7 +65,7 @@ def add_metric_to_graph(metric: BaseMetric, g: Graph):
         g.add((instance_uri, prop_uri, format_rdflib_literal(value)))
 
 @click.group()
-def cli():
+def cli() -> None:
     """Corona Standard CLI Tool"""
     pass
 
@@ -73,7 +73,7 @@ def cli():
 @click.option('--type', 'metric_type', type=click.Choice(['app', 'cov', 'router', 'all']), default='all', help='Type of sample metric(s) to generate.')
 @click.option('--format', 'output_format', type=click.Choice(['ttl', 'haystack', 'prometheus', 'json']), default='ttl', help='Output format for the generated metrics.')
 @click.option('-o', '--output', type=click.Path(dir_okay=False, writable=True), help='Optional file path to write the output to.')
-def generate(metric_type, output_format, output):
+def generate(metric_type: str, output_format: str, output: str | None) -> None:
     """Generate sample metrics and serialize them."""
     metrics: List[BaseMetric] = []
     if metric_type == 'all':
@@ -126,7 +126,7 @@ def generate(metric_type, output_format, output):
 
 @cli.command()
 @click.option('--file', 'model_file', type=click.Path(exists=True, dir_okay=False, readable=True), help='Path to the TTL model file to validate. Defaults to the example file.')
-def validate(model_file):
+def validate(model_file: str | None) -> None:
     """Validate a metric model (TTL file) against SHACL shapes."""
     # Pass analyze_flag=False as default
     try:
@@ -136,7 +136,7 @@ def validate(model_file):
 
 @cli.command()
 @click.option('--ontology', 'ontology_file', type=click.Path(exists=True, dir_okay=False, readable=True), help='Path to the ontology TTL file to analyze. Defaults to the one in validate_model.py.')
-def analyze(ontology_file):
+def analyze(ontology_file: str | None) -> None:
     """Analyze the Corona ontology structure."""
     try:
         validate_model.analyze_ontology(ont_path=ontology_file)
