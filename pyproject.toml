@@ -29,3 +29,6 @@ dev = [
     "pytest>=8.3.5",
     "ruff>=0.11.8",
 ]
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]

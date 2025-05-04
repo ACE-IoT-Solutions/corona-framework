@@ -13,8 +13,8 @@ if src_path not in sys.path:
     sys.path.insert(0, src_path)
 
 # Import necessary components from the project
-from models import BaseMetric, CORONA, BACNET, format_rdflib_literal, to_camel_case
-from demo_metrics import generate_all_sample_metrics
+from src.models import BaseMetric, CORONA, BACNET, format_rdflib_literal, to_camel_case
+from src.demo_metrics import generate_all_sample_metrics
 
 
 # --- Helper function (similar to main.py) ---
