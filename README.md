@@ -1,7 +1,6 @@
 # OT Performance Metrics ("Corona") Standard - Draft
 
-**Current Date:** Monday, April 29, 2025
-
+[![Python Tests](https://github.com/aceiot/corona-standard/actions/workflows/python-test.yml/badge.svg)](https://github.com/aceiot/corona-standard/actions/workflows/python-test.yml)
 
 **(Working Title Note: The name "Corona" is used here as per initial discussion, but a different name might be preferable for a formal standard due to potential external associations.)**
 
@@ -11,30 +10,42 @@ This repository contains draft specifications for "Corona", a proposed standard 
 
 This standard aims to:
 
-* Define metrics like traffic counters, latency, error rates, and utilization using semantic web technologies (RDFS).
-* Provide validation rules and constraints for data conforming to these metric definitions using SHACL.
-* Facilitate interoperability and consistent interpretation of performance data across different OT protocols and platforms.
-* Demonstrate seamless integration with existing standards, specifically the BACnet RDF representation proposed in ASHRAE Standard 135-2024 Addendum ct[cite: 1].
+*   Define metrics like traffic counters, latency, error rates, and utilization using semantic web technologies (RDFS).
+*   Provide validation rules and constraints for data conforming to these metric definitions using SHACL.
+*   Facilitate interoperability and consistent interpretation of performance data across different OT protocols and platforms.
+*   Demonstrate seamless integration with existing standards, specifically the BACnet RDF representation proposed in ASHRAE Standard 135-2024 Addendum ct[cite: 1].
+*   Integrate with network topology models for contextualizing metrics.
+
+## Related Projects
+
+This standard is designed to work in conjunction with other related efforts:
+
+*   **[corona-network-standard](../corona-network-standard/README.md):** Defines the RDFS/SHACL model for representing network topology (Nodes, Interfaces, Links, Subnets, VLANs). `corona-standard` metrics use the `observedFrom` property to link to specific `net:HWNetEntity` instances (like `net:Node` or `net:Iface`) defined in this network model, providing context for where the metrics were observed.
+*   **[corona-pcap-processor](../corona-pcap-processor/README.md):** An example implementation that processes PCAP network capture files (specifically focusing on BACnet traffic), extracts relevant performance data, and generates RDF metrics conforming to the `corona-standard` definitions and Pydantic models.
 
 ## Contents
 
 This repository (conceptually) contains the following components:
 
-1.  **`corona-ontology.ttl`**:
-    * RDFS definitions for Corona metric classes (e.g., `NetworkInterfaceMetric`, `ApplicationMetric`) and properties (e.g., `bytesReceived`, `readCommandLatency`, `requestSuccessPercentage`).
-    * Provides the core semantic meaning for each metric.
+1.  **`data/corona-ontology.ttl`**:
+    *   RDFS definitions for Corona metric classes (e.g., `NetworkInterfaceMetric`, `ApplicationMetric`) and properties (e.g., `bytesReceived`, `readCommandLatency`, `requestSuccessPercentage`).
+    *   Provides the core semantic meaning for each metric.
+    *   References classes from `corona-network-standard` (e.g., `net:HWNetEntity` as the range for `corona:observedFrom`).
 
-2.  **`corona-shapes.ttl`**:
-    * SHACL Node Shapes (e.g., `NetworkInterfaceShape`, `ApplicationMetricShape`) defining constraints for RDF data graphs reporting Corona metrics.
-    * Specifies rules like data types (`xsd:unsignedLong`, `xsd:float`), cardinality (min/max count), and value ranges.
+2.  **`data/corona-shapes.ttl`**:
+    *   SHACL Node Shapes (e.g., `NetworkInterfaceShape`, `ApplicationMetricShape`) defining constraints for RDF data graphs reporting Corona metrics.
+    *   Specifies rules like data types (`xsd:unsignedLong`, `xsd:float`), cardinality (min/max count), and value ranges.
+    *   Validates links to network entities (e.g., ensuring `corona:observedFrom` points to a valid `net:HWNetEntity`).
 
-3.  **`examples/bacnet-integration.ttl`**:
-    * Illustrative RDF examples demonstrating how BACnet devices/objects, represented using the RDF syntax from Addendum ct[cite: 1], can report metrics using the Corona standard definitions.
-    * Shows how Corona properties can be directly instantiated or mapped from BACnet-specific properties.
-    * Includes example instances that can be validated against `corona-shapes.ttl`.
+3.  **`src/models.py`**:
+    *   Pydantic models mirroring the RDFS/SHACL definitions, providing a Pythonic way to create and validate metric data.
+    *   Includes methods (`to_ttl`, `to_prometheus`, `to_haystack_json`) for serializing metric instances into various output formats.
 
-4.  **`README.md`**:
-    * This file.
+4.  **`examples/`**:
+    *   Illustrative RDF examples demonstrating how systems (e.g., BACnet) can report metrics using the Corona standard definitions.
+
+5.  **`README.md`**: 
+    *   This file.
 
 ## Properties and Metrics
 

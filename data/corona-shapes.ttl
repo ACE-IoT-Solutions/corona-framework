@@ -7,6 +7,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 # @prefix corona: <http://example.org/standards/corona/metrics#> .
 @prefix corona: <http://coronastandard.org/2022#> .
+@prefix net: <http://www.example.org/network-ontology#> . # Added prefix for network ontology
 @prefix ex: <http://example.org/shapes/> . # Namespace for shapes
 
 # --- Base Shape for Performance Metrics ---
@@ -15,8 +16,9 @@ corona:PerformanceMetricShape
     sh:targetClass corona:PerformanceMetric ;
     sh:property [
         sh:path corona:observedFrom ;
-        sh:description "Specifies the observer node in the network where these metrics were collected or calculated. This is the monitoring point (capture device, analyzer, or network tap) rather than the device about which the metrics were observed." ;
+        sh:description "Specifies the network entity (Node or Interface) on which these metrics were observed or measured." ;
         sh:nodeKind sh:IRI ;
+        sh:class net:HWNetEntity ; # Validate that the value is a Hardware Network Entity (or subclass)
         sh:minCount 1 ;
     ] ;
     sh:property [

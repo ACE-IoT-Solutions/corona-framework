@@ -5,6 +5,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix corona: <http://example.org/standards/corona/metrics#> .
+@prefix net: <http://www.example.org/network-ontology#> . # Added prefix for network ontology
 
 # --- Base Classes ---
 
@@ -36,9 +37,9 @@ corona:ApplicationMetric rdf:type rdfs:Class ;
 
 corona:observedFrom rdf:type rdf:Property ;
     rdfs:label "Observed From"@en ;
-    rdfs:comment "Specifies the observer node in the network where these metrics were collected or calculated. This is the monitoring point (capture device, analyzer, or network tap) rather than the device about which the metrics were observed. In some cases, the observer might be the same device that generated the traffic."@en ;
+    rdfs:comment "Specifies the network entity (Node or Interface) on which these metrics were observed or measured."@en ; # Updated comment
     rdfs:domain corona:PerformanceMetric ;
-    rdfs:range rdfs:Resource ; # Can point to any network node or resource
+    rdfs:range net:HWNetEntity ; # Changed range to the common RDFS superclass
     rdfs:isDefinedBy corona: .
 
 corona:description rdf:type rdf:Property ;
