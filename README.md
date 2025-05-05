@@ -1,6 +1,6 @@
 # OT Performance Metrics ("Corona") Standard - Draft
 
-[![Python Tests](https://github.com/aceiot/corona-standard/actions/workflows/python-test.yml/badge.svg)](https://github.com/aceiot/corona-standard/actions/workflows/python-test.yml)
+[![Python Tests](https://github.com/ACE-IoT-Solutions/corona-framework/actions/workflows/python-test.yml/badge.svg)](https://github.com/ACE-IoT-Solutions/corona-framework/actions/workflows/python-test.yml)
 
 **(Working Title Note: The name "Corona" is used here as per initial discussion, but a different name might be preferable for a formal standard due to potential external associations.)**
 
