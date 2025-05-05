@@ -19,9 +19,9 @@ This standard aims to:
 ## Related Projects
 
 This standard is designed to work in conjunction with other related efforts:
-
-*   **[corona-network-standard](https://github.com/ACE-IoT-Solutions/corona-network-standard/README.md):** Defines the RDFS/SHACL model for representing network topology (Nodes, Interfaces, Links, Subnets, VLANs). `corona-standard` metrics use the `observedFrom` property to link to specific `net:HWNetEntity` instances (like `net:Node` or `net:Iface`) defined in this network model, providing context for where the metrics were observed.
-*   **[corona-pcap-processor](https://github.com/ACE-IoT-Solutions/corona-pcap-processor/README.md):** An example implementation that processes PCAP network capture files (specifically focusing on BACnet traffic), extracts relevant performance data, and generates RDF metrics conforming to the `corona-standard` definitions and Pydantic models.
+h
+*   **[corona-network-standard](ttps://github.com/ACE-IoT-Solutions/corona-network-standard):** Defines the RDFS/SHACL model for representing network topology (Nodes, Interfaces, Links, Subnets, VLANs). `corona-standard` metrics use the `observedFrom` property to link to specific `net:HWNetEntity` instances (like `net:Node` or `net:Iface`) defined in this network model, providing context for where the metrics were observed.
+*   **[corona-pcap-processor](https://github.com/ACE-IoT-Solutions/corona-pcap-processor):** An example implementation that processes PCAP network capture files (specifically focusing on BACnet traffic), extracts relevant performance data, and generates RDF metrics conforming to the `corona-standard` definitions and Pydantic models.
 
 ## Contents
 
