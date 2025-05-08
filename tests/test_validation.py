@@ -3,18 +3,12 @@ from rdflib import Graph, Literal, URIRef # Added Literal, URIRef
 from rdflib.namespace import RDF, RDFS, XSD
 from pyshacl import validate
 import os
-import sys
 
-# Ensure src directory is in path for imports
-script_dir = os.path.dirname(os.path.abspath(__file__)) # tests directory
-project_root = os.path.dirname(script_dir) # project root (corona-standard)
-src_path = os.path.join(project_root, 'src')
-if src_path not in sys.path:
-    sys.path.insert(0, src_path)
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # project root (corona-standard)
 
 # Import necessary components from the project
-from src.models import BaseMetric, CORONA, BACNET, format_rdflib_literal, to_camel_case
-from src.demo_metrics import generate_all_sample_metrics
+from corona_framework.models import BaseMetric, CORONA, BACNET, format_rdflib_literal, to_camel_case
+from corona_framework.demo_metrics import generate_all_sample_metrics
 
 
 # --- Helper function (similar to main.py) ---

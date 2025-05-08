@@ -5,8 +5,8 @@ import os
 from datetime import datetime
 
 # Adjust import path based on project structure
-from src.models import BacnetApplicationMetric, COVNotificationMetric, RouterBBMDMetric
-from src.constants import CORONA, BACNET # Assuming constants are needed
+from corona_framework.models import BacnetApplicationMetric, COVNotificationMetric, RouterBBMDMetric
+from corona_framework.constants import CORONA, BACNET # Assuming constants are needed
 
 # Determine project root and paths relative to the test file
 test_dir = os.path.dirname(os.path.abspath(__file__))
