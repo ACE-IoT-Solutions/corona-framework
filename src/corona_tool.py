@@ -6,18 +6,13 @@ from typing import List, Dict, Any
 from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import RDF, RDFS, XSD
 
-# Adjust Python path to find modules in src/
-script_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, script_dir) # Add project root to path
-
 # Assuming these imports are correct relative to the project structure
 try:
-    from src.models import BaseMetric, CORONA, BACNET, format_rdflib_literal, to_camel_case
-    from src import demo_metrics
-    from src import validate_model
+    from .models import BaseMetric, CORONA, BACNET, format_rdflib_literal, to_camel_case
+    from . import demo_metrics
+    from . import validate_model
 except ImportError as e:
     print(f"Error importing modules: {e}", file=sys.stderr)
-    print("Ensure the script is run from the project root directory (`corona-standard/`)", file=sys.stderr)
     sys.exit(1)
 
 def add_metric_to_graph(metric: BaseMetric, g: Graph) -> None:
