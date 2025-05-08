@@ -1,27 +1,46 @@
 [project]
-name = "corona-standard"
+name = "corona-framework"
 version = "0.1.1"
 description = "Pydantic models and utilities for the Corona OT Performance Metrics Standard"
 readme = "README.md"
 requires-python = ">=3.9"
+authors = [
+  { name="Andrew Rodgers", email="andrew@aceiotsolutions.com" },
+]
+license = { file = "LICENSE" }
+classifiers = [
+    "Development Status :: 3 - Alpha", # Choose appropriate status
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License", # TODO: Choose your actual license
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["iot", "ontology", "bacnet", "metrics", "pydantic", "rdf", "shacl"]
 dependencies = [
-    "click>=8.0", # Add click
+    "click>=8.0",
     "pydantic>=2.0",
     "pyshacl>=0.30.1",
     "rdflib>=7.0.0",
 ]
 
 [project.scripts]
-corona-cli = "src.corona_tool:cli"
+corona-cli = "corona_framework.corona_tool:cli"
 
 [build-system]
-# Use setuptools as the build backend
 requires = ["setuptools>=42"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-# Explicitly tell setuptools where to find the packages
-packages = ["src"]
+package-dir = {"corona_framework" = "src"}
+packages = ["corona_framework"]
+package-data = { "corona_framework" = ["py.typed", "../data/*.ttl"] }
 
 [dependency-groups]
 dev = [
